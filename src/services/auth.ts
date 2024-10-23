@@ -32,12 +32,17 @@ export interface RegistrationRequestData {
   verifier: string;
 }
 
-export interface RegistrationResponse {
+export interface TokenResponse {
   accessToken:string;
   refreshToken:string;
 }
 
-export const register = async (formData: RegistrationRequestData):Promise<RegistrationResponse> => {
-  const response = await APIService.post('/auth/registration', formData);
+export const register = async (formData: RegistrationRequestData):Promise<TokenResponse> => {
+  const response = await APIService.post('/auth/register', formData);
   return response.data;
 }
+
+export const refreshAccessToken = async (refreshToken: string): Promise<TokenResponse> => {
+  const response = await APIService.post('/auth/refresh', { refreshToken });
+  return response.data;
+};

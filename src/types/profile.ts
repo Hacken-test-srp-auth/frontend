@@ -6,7 +6,6 @@ createdAt: string;
 updatedAt: string;
 }
 
-
 export interface UpdateProfileData{
   name: string;
   username:string;
