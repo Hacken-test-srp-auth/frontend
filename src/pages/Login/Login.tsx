@@ -1,24 +1,48 @@
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
-import { g, k, modPow, N } from '../srpUtils';
-import { completeLogin, initLogin } from '../services/auth';
-import useBoundStore from '../store/useStore';
+import { g, k, modPow, N } from '../../srpUtils';
+import { completeLogin, initLogin } from '../../services/auth';
+import useBoundStore from '../../store/useStore';
 import { Link } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff} from 'lucide-react';
 
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import classNames from 'classnames';
+
+
+const loginSchema = yup.object({
+  email: yup
+    .string()
+    .required('Email is required')
+    .email('Must be a valid email'),
+  password: yup
+    .string()
+    .required('Password is required')
+    .min(6, 'Password must be at least 6 characters'),
+}).required();
+
+type LoginFormData = yup.InferType<typeof loginSchema>;
+
 export const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    
+  } = useForm<LoginFormData>({
+    resolver: yupResolver(loginSchema),
+  });
 
   const [showPassword, setShowPassword] = useState(false);
 
   const { setLoggedIn } = useBoundStore()
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: LoginFormData) => {
     setError('');
-
+    const {email, password} = data;
     try {
       const initResponse = await initLogin(email)
       const { salt, serverPublicKey } = initResponse;
@@ -92,7 +116,7 @@ return (
   <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
     <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Welcome Back</h2>
     
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {error && (
         <div className="bg-red-50 text-red-700 p-3 rounded-md border border-red-200 text-sm">
           {error}
@@ -106,13 +130,17 @@ return (
             Email
           </label>
           <input
+            {...register('email')}
             id="email"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
             placeholder="Enter your email"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+            className={classNames(
+              "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 bg-white",
+              {
+                'border-red-500': errors.email,
+                'border-gray-300': !errors.email
+              }
+            )}
           />
         </div>
 
@@ -123,13 +151,17 @@ return (
           </label>
           <div className="relative">
             <input
+              {...register('password')}
               id="password"
               type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
               placeholder="Enter your password"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+              className={classNames(
+                "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 bg-white",
+                {
+                  'border-red-500': errors.password,
+                  'border-gray-300': !errors.password
+                }
+              )} 
             />
             <button
               type="button"

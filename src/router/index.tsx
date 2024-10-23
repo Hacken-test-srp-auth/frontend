@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { Login } from '../pages/Login';
-import { Registration } from '../pages/Registration';
-import { Profile } from '../pages/Profile';
+import { Login } from '../pages';
+import { Registration } from '../pages';
+import { Profile } from '../pages';
 import { DefaultLayout } from '../layout';
 import { AuthGuard } from './AuthGuard';
 
