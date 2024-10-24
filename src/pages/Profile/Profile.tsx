@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { User, Mail, Loader2 } from 'lucide-react';
-import useBoundStore from '../../store/useStore';
-import { FormInput } from '../../components/FormInput';
+import React, { useEffect } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { User, Mail, Loader2 } from "lucide-react";
+import useBoundStore from "../../store/useStore";
+import { FormInput } from "../../components/FormInput";
 
 const profileSchema = yup
   .object({
-    name: yup.string().required('Name is required'),
-    username: yup.string().required('Username is required'),
+    name: yup.string().required("Name is required"),
+    username: yup.string().required("Username is required"),
   })
   .required();
 
@@ -26,8 +26,8 @@ export const Profile: React.FC = () => {
   const methods = useForm<ProfileFormData>({
     resolver: yupResolver(profileSchema),
     defaultValues: {
-      name: profile?.name || '',
-      username: profile?.username || '',
+      name: profile?.name || "",
+      username: profile?.username || "",
     },
   });
 
@@ -51,10 +51,10 @@ export const Profile: React.FC = () => {
 
     try {
       await updateProfile(data);
-      setSuccessMessage('Profile updated successfully');
+      setSuccessMessage("Profile updated successfully");
     } catch (err) {
-      setError('Failed to update profile. Please try again.');
-      console.error('Error updating profile:', err);
+      setError("Failed to update profile. Please try again.");
+      console.error("Error updating profile:", err);
     } finally {
       setIsLoading(false);
     }
@@ -106,7 +106,7 @@ export const Profile: React.FC = () => {
                 Updating...
               </>
             ) : (
-              'Update Profile'
+              "Update Profile"
             )}
           </button>
         </form>

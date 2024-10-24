@@ -1,33 +1,33 @@
-import React, { useState } from 'react';
-import { ethers } from 'ethers';
-import { g, k, modPow, N } from '../../srpUtils';
-import { completeLogin, initLogin } from '../../services/auth';
-import useBoundStore from '../../store/useStore';
-import { Link } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import React, { useState } from "react";
+import { ethers } from "ethers";
+import { g, k, modPow, N } from "../../srpUtils";
+import { completeLogin, initLogin } from "../../services/auth";
+import useBoundStore from "../../store/useStore";
+import { Link } from "react-router-dom";
+import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import classNames from 'classnames';
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import classNames from "classnames";
 
 const loginSchema = yup
   .object({
     email: yup
       .string()
-      .required('Email is required')
-      .email('Must be a valid email'),
+      .required("Email is required")
+      .email("Must be a valid email"),
     password: yup
       .string()
-      .required('Password is required')
-      .min(6, 'Password must be at least 6 characters'),
+      .required("Password is required")
+      .min(6, "Password must be at least 6 characters"),
   })
   .required();
 
 type LoginFormData = yup.InferType<typeof loginSchema>;
 
 export const Login: React.FC = () => {
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const {
     register,
     handleSubmit,
@@ -41,7 +41,7 @@ export const Login: React.FC = () => {
   const { setLoggedIn } = useBoundStore();
 
   const onSubmit = async (data: LoginFormData) => {
-    setError('');
+    setError("");
     const { email, password } = data;
     try {
       const initResponse = await initLogin(email);
@@ -57,7 +57,7 @@ export const Login: React.FC = () => {
             ethers.keccak256(
               ethers.concat([
                 ethers.toUtf8Bytes(email),
-                ethers.toUtf8Bytes(':'),
+                ethers.toUtf8Bytes(":"),
                 ethers.toUtf8Bytes(password),
               ])
             ),
@@ -102,7 +102,7 @@ export const Login: React.FC = () => {
 
       const { M2, accessToken, refreshToken } = completeResponse;
 
-      console.log('Received from server:', {
+      console.log("Received from server:", {
         M2,
       });
 
@@ -112,16 +112,16 @@ export const Login: React.FC = () => {
       );
 
       if (M2 !== ethers.hexlify(expectedM2)) {
-        throw new Error('Server verification failed');
+        throw new Error("Server verification failed");
       }
 
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
       setLoggedIn(true);
 
       // Redirect or update app state here
     } catch (err) {
-      setError('Login failed. Please try again.');
+      setError("Login failed. Please try again.");
       console.error(err);
     }
   };
@@ -149,15 +149,15 @@ export const Login: React.FC = () => {
               Email
             </label>
             <input
-              {...register('email')}
+              {...register("email")}
               id="email"
               type="email"
               placeholder="Enter your email"
               className={classNames(
-                'w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 bg-white',
+                "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 bg-white",
                 {
-                  'border-red-500': errors.email,
-                  'border-gray-300': !errors.email,
+                  "border-red-500": errors.email,
+                  "border-gray-300": !errors.email,
                 }
               )}
             />
@@ -173,15 +173,15 @@ export const Login: React.FC = () => {
             </label>
             <div className="relative">
               <input
-                {...register('password')}
+                {...register("password")}
                 id="password"
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 className={classNames(
-                  'w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 bg-white',
+                  "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 bg-white",
                   {
-                    'border-red-500': errors.password,
-                    'border-gray-300': !errors.password,
+                    "border-red-500": errors.password,
+                    "border-gray-300": !errors.password,
                   }
                 )}
               />
