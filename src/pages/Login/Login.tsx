@@ -1,30 +1,14 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
-import { g, k, modPow, N } from "../../srpUtils";
-import { completeLogin, initLogin } from "../../services/auth";
-import useBoundStore from "../../store/useStore";
+import { completeLogin, initLogin } from "~/services/auth";
+import useBoundStore from "~/store/useStore";
+import { SRPService } from "~/srp/srp-client";
+import { LoginFormData, loginSchema } from "./formConfig";
 import { Link } from "react-router-dom";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
-
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import classNames from "classnames";
-
-const loginSchema = yup
-  .object({
-    email: yup
-      .string()
-      .required("Email is required")
-      .email("Must be a valid email"),
-    password: yup
-      .string()
-      .required("Password is required")
-      .min(6, "Password must be at least 6 characters"),
-  })
-  .required();
-
-type LoginFormData = yup.InferType<typeof loginSchema>;
 
 export const Login: React.FC = () => {
   const [error, setError] = useState("");
@@ -44,71 +28,29 @@ export const Login: React.FC = () => {
     setError("");
     const { email, password } = data;
     try {
-      const initResponse = await initLogin(email);
-      const { salt, serverPublicKey } = initResponse;
+      const { salt, serverPublicKey } = await initLogin(email);
 
-      const clientPrivateKey = ethers.toBigInt(ethers.randomBytes(32));
-      const clientPublicKey = modPow(g, clientPrivateKey, N);
-
-      const x = ethers.toBigInt(
-        ethers.keccak256(
-          ethers.concat([
-            ethers.toBeArray(ethers.toBigInt(salt)),
-            ethers.keccak256(
-              ethers.concat([
-                ethers.toUtf8Bytes(email),
-                ethers.toUtf8Bytes(":"),
-                ethers.toUtf8Bytes(password),
-              ])
-            ),
-          ])
-        )
-      );
-
-      const bigintServerPublicKey = ethers.toBigInt(`0x${serverPublicKey}`);
-
-      const u = ethers.toBigInt(
-        ethers.keccak256(
-          ethers.concat([
-            ethers.toBeArray(clientPublicKey),
-            ethers.toBeArray(bigintServerPublicKey),
-          ])
-        )
-      );
-
-      const gToX = modPow(g, x, N);
-      const kgToX = (k * gToX) % N;
-      const base = (bigintServerPublicKey - kgToX + N) % N;
-
-      const S = modPow(base, clientPrivateKey + u * x, N);
-
-      const K = ethers.keccak256(ethers.toBeArray(S));
-
-      // Step 4: Compute client proof
-      const M1 = ethers.keccak256(
-        ethers.concat([
-          ethers.toBeArray(clientPublicKey),
-          ethers.toBeArray(BigInt(bigintServerPublicKey)),
-          K,
-        ])
+      const { clientPublicKey, clientProof, K } = SRPService.computeLoginProof(
+        email,
+        password,
+        salt,
+        serverPublicKey
       );
 
       // Step 5: Complete login
-      const completeResponse = await completeLogin(
+      const { accessToken, refreshToken, M2 } = await completeLogin(
         email,
-        clientPublicKey.toString(),
-        ethers.hexlify(M1)
+        clientPublicKey,
+        clientProof
       );
-
-      const { M2, accessToken, refreshToken } = completeResponse;
-
-      console.log("Received from server:", {
-        M2,
-      });
 
       // Step 6: Verify server proof
       const expectedM2 = ethers.keccak256(
-        ethers.concat([ethers.toBeArray(clientPublicKey), M1, K])
+        ethers.concat([
+          ethers.toBeArray(BigInt(clientPublicKey)),
+          ethers.getBytes(clientProof),
+          K,
+        ])
       );
 
       if (M2 !== ethers.hexlify(expectedM2)) {

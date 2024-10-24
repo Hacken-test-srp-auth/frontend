@@ -7,7 +7,6 @@ APIService.interceptors.request.use(
   async config => {
     config.baseURL = import.meta.env.VITE_API_BASE_URL;
     config.headers.Authorization = `Bearer ${localStorage.getItem("accessToken")}`;
-    console.log("====> :", config);
     return config;
   },
   error => Promise.reject(error)
