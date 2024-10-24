@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -7,13 +7,11 @@ import useBoundStore from "~/store/useStore";
 import { FormInput } from "~/components/FormInput";
 import { ProfileFormData, profileSchema } from "./formConfig";
 
-export const Profile: React.FC = () => {
+export const Profile: FC = () => {
   const { profile, updateProfile, setProfile } = useBoundStore();
-  const [error, setError] = React.useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = React.useState<string | null>(
-    null
-  );
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const methods = useForm<ProfileFormData>({
     resolver: yupResolver(profileSchema),

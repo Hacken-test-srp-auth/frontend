@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { ComponentType, FC, useEffect } from "react";
 import useBoundStore from "~/store/useStore";
 
 interface AuthGuardProps {
-  Page: React.ComponentType;
+  Page: ComponentType;
 }
 
-export const AuthGuard: React.FC<AuthGuardProps> = ({ Page }) => {
+export const AuthGuard: FC<AuthGuardProps> = ({ Page }) => {
   const navigate = useNavigate();
   const { isLoggedIn } = useBoundStore();
   useEffect(() => {
