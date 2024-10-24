@@ -8,7 +8,7 @@ import { AuthGuard } from './AuthGuard';
 export const router = createBrowserRouter([
   {
     path: '/',
-    Component: DefaultLayout ,
+    Component: DefaultLayout,
     children: [
       {
         path: '/',

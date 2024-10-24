@@ -8,21 +8,25 @@ interface AuthGuardProps {
 
 export const AuthGuard: React.FC<AuthGuardProps> = ({ Page }) => {
   const navigate = useNavigate();
-  const { isLoggedIn } = useBoundStore()
+  const { isLoggedIn } = useBoundStore();
   useEffect(() => {
-      if (isLoggedIn) {
-        if (location.pathname === '/login' || location.pathname === '/registration') {
-          navigate('/profile', { replace: true });
-        }
-      } 
-      if(!isLoggedIn){
-        if (location.pathname !== '/registration' && location.pathname !== '/login') {
-          navigate('/login', { replace: true });
-        }
+    if (isLoggedIn) {
+      if (
+        location.pathname === '/login' ||
+        location.pathname === '/registration'
+      ) {
+        navigate('/profile', { replace: true });
       }
-      
-    },[isLoggedIn, navigate]);
-
+    }
+    if (!isLoggedIn) {
+      if (
+        location.pathname !== '/registration' &&
+        location.pathname !== '/login'
+      ) {
+        navigate('/login', { replace: true });
+      }
+    }
+  }, [isLoggedIn, navigate]);
 
   return <Page />;
 };

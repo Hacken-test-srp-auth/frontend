@@ -6,25 +6,29 @@ import { User, Mail, Loader2 } from 'lucide-react';
 import useBoundStore from '../../store/useStore';
 import { FormInput } from '../../components/FormInput';
 
-const profileSchema = yup.object({
-  name: yup.string().required('Name is required'),
-  username: yup.string().required('Username is required'),
-}).required();
+const profileSchema = yup
+  .object({
+    name: yup.string().required('Name is required'),
+    username: yup.string().required('Username is required'),
+  })
+  .required();
 
 type ProfileFormData = yup.InferType<typeof profileSchema>;
 
 export const Profile: React.FC = () => {
   const { profile, updateProfile, setProfile } = useBoundStore();
   const [error, setError] = React.useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = React.useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = React.useState<string | null>(
+    null
+  );
   const [isLoading, setIsLoading] = React.useState(false);
 
   const methods = useForm<ProfileFormData>({
     resolver: yupResolver(profileSchema),
     defaultValues: {
       name: profile?.name || '',
-      username: profile?.username || ''
-    }
+      username: profile?.username || '',
+    },
   });
 
   useEffect(() => {
@@ -35,7 +39,7 @@ export const Profile: React.FC = () => {
     if (profile) {
       methods.reset({
         name: profile.name,
-        username: profile.username
+        username: profile.username,
       });
     }
   }, [profile, methods]);
@@ -62,7 +66,9 @@ export const Profile: React.FC = () => {
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
-      <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Profile Settings</h1>
+      <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">
+        Profile Settings
+      </h1>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">

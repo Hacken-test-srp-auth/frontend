@@ -19,7 +19,7 @@ export const Registration: React.FC = () => {
     password: '',
   });
 
-  const {setLoggedIn} = useBoundStore()
+  const { setLoggedIn } = useBoundStore();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,43 +29,55 @@ export const Registration: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const salt = ethers.randomBytes(16)
+    const salt = ethers.randomBytes(16);
 
-    const x = ethers.toBigInt(ethers.keccak256(ethers.concat([
-      ethers.toBeArray(ethers.toBigInt(salt)),
-      ethers.keccak256(ethers.concat([
-        ethers.toUtf8Bytes(formData.email),
-        ethers.toUtf8Bytes(':'),
-        ethers.toUtf8Bytes(formData.password)
-      ]))
-    ])));
+    const x = ethers.toBigInt(
+      ethers.keccak256(
+        ethers.concat([
+          ethers.toBeArray(ethers.toBigInt(salt)),
+          ethers.keccak256(
+            ethers.concat([
+              ethers.toUtf8Bytes(formData.email),
+              ethers.toUtf8Bytes(':'),
+              ethers.toUtf8Bytes(formData.password),
+            ])
+          ),
+        ])
+      )
+    );
 
     const v = modPow(g, x, N);
-    
+
     const registrationData = {
       email: formData.email,
       salt: ethers.hexlify(salt),
       verifier: v.toString(16),
-      username:formData.username,
+      username: formData.username,
       name: formData.name,
     };
-    
+
     try {
-      const {refreshToken, accessToken} = await register(registrationData);
-      localStorage.setItem('refreshToken',refreshToken);
-      localStorage.setItem('accessToken',accessToken);
+      const { refreshToken, accessToken } = await register(registrationData);
+      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('accessToken', accessToken);
       setLoggedIn(true);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
   return (
     <div className="max-w-md mx-auto mt-10">
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      >
         <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="username"
+          >
             Username
           </label>
           <input
@@ -79,7 +91,10 @@ export const Registration: React.FC = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="email"
+          >
             Email
           </label>
           <input
@@ -93,7 +108,10 @@ export const Registration: React.FC = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="name"
+          >
             Name
           </label>
           <input
@@ -107,7 +125,10 @@ export const Registration: React.FC = () => {
           />
         </div>
         <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="password"
+          >
             Password
           </label>
           <input
