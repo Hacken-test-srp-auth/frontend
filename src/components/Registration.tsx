@@ -1,8 +1,8 @@
-import { ethers } from 'ethers';
-import React, { useState } from 'react';
-import { g, modPow, N } from '../srpUtils';
-import { register } from '../services/auth';
-import useBoundStore from '../store/useStore';
+import { ethers } from "ethers";
+import React, { useState } from "react";
+import { g, modPow, N } from "../srpUtils";
+import { register } from "../services/auth";
+import useBoundStore from "../store/useStore";
 
 interface RegistrationFormData {
   username: string;
@@ -13,10 +13,10 @@ interface RegistrationFormData {
 
 export const Registration: React.FC = () => {
   const [formData, setFormData] = useState<RegistrationFormData>({
-    username: '',
-    email: '',
-    name: '',
-    password: '',
+    username: "",
+    email: "",
+    name: "",
+    password: "",
   });
 
   const { setLoggedIn } = useBoundStore();
@@ -38,7 +38,7 @@ export const Registration: React.FC = () => {
           ethers.keccak256(
             ethers.concat([
               ethers.toUtf8Bytes(formData.email),
-              ethers.toUtf8Bytes(':'),
+              ethers.toUtf8Bytes(":"),
               ethers.toUtf8Bytes(formData.password),
             ])
           ),
@@ -58,8 +58,8 @@ export const Registration: React.FC = () => {
 
     try {
       const { refreshToken, accessToken } = await register(registrationData);
-      localStorage.setItem('refreshToken', refreshToken);
-      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      localStorage.setItem("accessToken", accessToken);
       setLoggedIn(true);
     } catch (error) {
       console.log(error);

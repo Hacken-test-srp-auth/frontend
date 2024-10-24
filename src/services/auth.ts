@@ -1,11 +1,11 @@
-import { APIService } from './api-client';
+import { APIService } from "./api-client";
 
 interface InitLoginResponse {
   salt: string;
   serverPublicKey: string;
 }
 export const initLogin = async (email: string): Promise<InitLoginResponse> => {
-  const response = await APIService.post('/auth/login-init', { email });
+  const response = await APIService.post("/auth/login-init", { email });
   return response.data;
 };
 
@@ -20,7 +20,7 @@ export const completeLogin = async (
   clientPublicKey: string,
   clientProof: string
 ): Promise<CompleteLoginResponse> => {
-  const response = await APIService.post('/auth/login-complete', {
+  const response = await APIService.post("/auth/login-complete", {
     email,
     clientPublicKey,
     clientProof,
@@ -29,7 +29,7 @@ export const completeLogin = async (
 };
 
 export const logOut = async (refreshToken: string): Promise<void> => {
-  await APIService.post('/auth/logout', { refreshToken });
+  await APIService.post("/auth/logout", { refreshToken });
 };
 
 export interface RegistrationRequestData {
@@ -48,13 +48,13 @@ export interface TokenResponse {
 export const register = async (
   formData: RegistrationRequestData
 ): Promise<TokenResponse> => {
-  const response = await APIService.post('/auth/register', formData);
+  const response = await APIService.post("/auth/register", formData);
   return response.data;
 };
 
 export const refreshAccessToken = async (
   refreshToken: string
 ): Promise<TokenResponse> => {
-  const response = await APIService.post('/auth/refresh', { refreshToken });
+  const response = await APIService.post("/auth/refresh", { refreshToken });
   return response.data;
 };

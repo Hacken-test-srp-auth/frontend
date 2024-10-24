@@ -1,6 +1,6 @@
-import { APIService } from './api-client';
-import { Profile } from '../types';
-import { UpdateProfileData } from '../types/profile';
+import { APIService } from "./api-client";
+import { Profile } from "../types";
+import { UpdateProfileData } from "../types/profile";
 
 export const fetchProfile = async (): Promise<Profile> => {
   const response = await APIService.get<Profile>(`/profile`);

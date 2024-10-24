@@ -1,24 +1,24 @@
-import { ethers } from 'ethers';
-import React from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { User, Mail, UserPlus } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { g, modPow, N } from '../../srpUtils';
-import { register as registerUser } from '../../services/auth';
-import useBoundStore from '../../store/useStore';
-import { PasswordInput, FormInput } from '../../components';
+import { ethers } from "ethers";
+import React from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { User, Mail, UserPlus } from "lucide-react";
+import { Link } from "react-router-dom";
+import { g, modPow, N } from "../../srpUtils";
+import { register as registerUser } from "../../services/auth";
+import useBoundStore from "../../store/useStore";
+import { PasswordInput, FormInput } from "../../components";
 
 const registrationSchema = yup
   .object({
-    username: yup.string().required('Username is required'),
+    username: yup.string().required("Username is required"),
     email: yup
       .string()
-      .required('Email is required')
-      .email('Must be a valid email'),
-    name: yup.string().required('Name is required'),
-    password: yup.string().required('Password is required'),
+      .required("Email is required")
+      .email("Must be a valid email"),
+    name: yup.string().required("Name is required"),
+    password: yup.string().required("Password is required"),
   })
   .required();
 
@@ -46,7 +46,7 @@ export const Registration: React.FC = () => {
           ethers.keccak256(
             ethers.concat([
               ethers.toUtf8Bytes(email),
-              ethers.toUtf8Bytes(':'),
+              ethers.toUtf8Bytes(":"),
               ethers.toUtf8Bytes(password),
             ])
           ),
@@ -67,8 +67,8 @@ export const Registration: React.FC = () => {
     try {
       const { refreshToken, accessToken } =
         await registerUser(registrationData);
-      localStorage.setItem('refreshToken', refreshToken);
-      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      localStorage.setItem("accessToken", accessToken);
       setLoggedIn(true);
     } catch (error) {
       console.log(error);

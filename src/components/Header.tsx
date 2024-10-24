@@ -1,21 +1,21 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import useBoundStore from '../store/useStore';
-import { logOut } from '../services/auth';
+import React from "react";
+import { Link } from "react-router-dom";
+import useBoundStore from "../store/useStore";
+import { logOut } from "../services/auth";
 
 export const Header: React.FC = () => {
   const { isLoggedIn, setLoggedIn } = useBoundStore();
   const onLogout = async () => {
     try {
-      const refreshToken = localStorage.getItem('refreshToken');
+      const refreshToken = localStorage.getItem("refreshToken");
       if (refreshToken) {
         await logOut(refreshToken);
       }
     } catch (error) {
-      console.error('Error during logout:', error);
+      console.error("Error during logout:", error);
     } finally {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
       setLoggedIn(false);
     }
   };

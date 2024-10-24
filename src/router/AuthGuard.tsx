@@ -1,6 +1,6 @@
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import useBoundStore from '../store/useStore';
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import useBoundStore from "../store/useStore";
 
 interface AuthGuardProps {
   Page: React.ComponentType;
@@ -12,18 +12,18 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({ Page }) => {
   useEffect(() => {
     if (isLoggedIn) {
       if (
-        location.pathname === '/login' ||
-        location.pathname === '/registration'
+        location.pathname === "/login" ||
+        location.pathname === "/registration"
       ) {
-        navigate('/profile', { replace: true });
+        navigate("/profile", { replace: true });
       }
     }
     if (!isLoggedIn) {
       if (
-        location.pathname !== '/registration' &&
-        location.pathname !== '/login'
+        location.pathname !== "/registration" &&
+        location.pathname !== "/login"
       ) {
-        navigate('/login', { replace: true });
+        navigate("/login", { replace: true });
       }
     }
   }, [isLoggedIn, navigate]);

@@ -1,6 +1,6 @@
-import React from 'react';
-import { useFormContext } from 'react-hook-form';
-import classNames from 'classnames';
+import React from "react";
+import { useFormContext } from "react-hook-form";
+import classNames from "classnames";
 
 interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -33,10 +33,10 @@ export const FormInput = ({
         {...register(name)}
         id={name}
         className={classNames(
-          'w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 bg-white',
+          "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 bg-white",
           {
-            'border-red-500': errors[name],
-            'border-gray-300': !errors[name],
+            "border-red-500": errors[name],
+            "border-gray-300": !errors[name],
           },
           className
         )}

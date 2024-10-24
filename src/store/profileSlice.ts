@@ -1,7 +1,7 @@
-import { StateCreator } from 'zustand';
-import { Profile } from '../types';
-import { fetchProfile, patchProfile } from '../services/profile';
-import { UpdateProfileData } from '../types/profile';
+import { StateCreator } from "zustand";
+import { Profile } from "../types";
+import { fetchProfile, patchProfile } from "../services/profile";
+import { UpdateProfileData } from "../types/profile";
 
 export interface ProfileSLice {
   profile: null | Profile;

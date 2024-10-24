@@ -1,7 +1,7 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
-import { createProfileSlice, ProfileSLice } from './profileSlice';
-import { AuthSlice, createAuthSlice } from './authSlice';
+import { createProfileSlice, ProfileSLice } from "./profileSlice";
+import { AuthSlice, createAuthSlice } from "./authSlice";
 
 export type AppState = AuthSlice & ProfileSLice;
 

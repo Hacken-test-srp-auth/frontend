@@ -1,8 +1,8 @@
 // components/PasswordInput.tsx
-import React, { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { Eye, EyeOff, Lock } from 'lucide-react';
-import classNames from 'classnames';
+import React, { useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { Eye, EyeOff, Lock } from "lucide-react";
+import classNames from "classnames";
 
 interface PasswordInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -12,7 +12,7 @@ interface PasswordInputProps
 
 export const PasswordInput = ({
   name,
-  label = 'Password',
+  label = "Password",
   ...props
 }: PasswordInputProps) => {
   const {
@@ -34,12 +34,12 @@ export const PasswordInput = ({
         <input
           {...register(name)}
           id={name}
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           className={classNames(
-            'w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 pr-10 bg-white',
+            "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 pr-10 bg-white",
             {
-              'border-red-500': errors[name],
-              'border-gray-300': !errors[name],
+              "border-red-500": errors[name],
+              "border-gray-300": !errors[name],
             }
           )}
           {...props}
