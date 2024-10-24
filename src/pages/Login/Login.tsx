@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
-import { completeLogin, initLogin } from "../../services/auth";
-import useBoundStore from "../../store/useStore";
+import { completeLogin, initLogin } from "~/services/auth";
+import useBoundStore from "~/store/useStore";
+import { SRPService } from "~/srp/srp-client";
+import { LoginFormData, loginSchema } from "./formConfig";
 import { Link } from "react-router-dom";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
-
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
 import classNames from "classnames";
-import { SRPService } from "../../srp/srp-client";
-import { LoginFormData, loginSchema } from "./formConfig";
 
 export const Login: React.FC = () => {
   const [error, setError] = useState("");

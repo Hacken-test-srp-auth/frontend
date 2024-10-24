@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import useBoundStore from "../store/useStore";
+import useBoundStore from "~/store/useStore";
 
 interface AuthGuardProps {
   Page: React.ComponentType;

@@ -1,14 +1,14 @@
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
 import { User, Mail, UserPlus } from "lucide-react";
+
 import { Link } from "react-router-dom";
-import { register as registerUser } from "../../services/auth";
-import useBoundStore from "../../store/useStore";
-import { PasswordInput, FormInput } from "../../components";
+import { register as registerUser } from "~/services/auth";
+import useBoundStore from "~/store/useStore";
+import { PasswordInput, FormInput } from "~/components";
 import { RegistrationFormData, registrationSchema } from "./formConfig";
-import { SRPService } from "../../srp/srp-client";
+import { SRPService } from "~/srp/srp-client";
 
 export const Registration: React.FC = () => {
   const { setLoggedIn } = useBoundStore();

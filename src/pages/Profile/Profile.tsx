@@ -3,8 +3,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { User, Mail, Loader2 } from "lucide-react";
-import useBoundStore from "../../store/useStore";
-import { FormInput } from "../../components/FormInput";
+import useBoundStore from "~/store/useStore";
+import { FormInput } from "~/components/FormInput";
 import { ProfileFormData, profileSchema } from "./formConfig";
 
 export const Profile: React.FC = () => {
