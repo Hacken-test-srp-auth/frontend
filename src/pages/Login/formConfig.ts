@@ -9,7 +9,10 @@ export const loginSchema = yup
     password: yup
       .string()
       .required("Password is required")
-      .min(6, "Password must be at least 6 characters"),
+      .min(4, `Password must be at least 4 characters`)
+      .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+      .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+      .matches(/[0-9]/, "Password must contain at least one number"),
   })
   .required();
 

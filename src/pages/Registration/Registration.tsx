@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { User, Mail, UserPlus } from "lucide-react";
@@ -10,7 +10,7 @@ import { PasswordInput, FormInput } from "~/components";
 import { RegistrationFormData, registrationSchema } from "./formConfig";
 import { SRPService } from "~/srp/srp-client";
 
-export const Registration: React.FC = () => {
+export const Registration: FC = () => {
   const { setLoggedIn } = useBoundStore();
 
   const methods = useForm<RegistrationFormData>({

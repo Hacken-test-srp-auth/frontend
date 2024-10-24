@@ -1,11 +1,10 @@
 // components/PasswordInput.tsx
-import React, { useState } from "react";
+import { InputHTMLAttributes, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { Eye, EyeOff, Lock } from "lucide-react";
 import classNames from "classnames";
 
-interface PasswordInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label?: string;
 }

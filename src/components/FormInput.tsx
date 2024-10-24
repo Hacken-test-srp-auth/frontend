@@ -1,11 +1,11 @@
-import React from "react";
+import { InputHTMLAttributes, ReactNode } from "react";
 import { useFormContext } from "react-hook-form";
 import classNames from "classnames";
 
-interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
 }
 
 export const FormInput = ({

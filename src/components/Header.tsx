@@ -1,9 +1,9 @@
-import React from "react";
+import { FC } from "react";
 import { Link } from "react-router-dom";
 import useBoundStore from "../store/useStore";
 import { logOut } from "../services/auth";
 
-export const Header: React.FC = () => {
+export const Header: FC = () => {
   const { isLoggedIn, setLoggedIn } = useBoundStore();
   const onLogout = async () => {
     try {
