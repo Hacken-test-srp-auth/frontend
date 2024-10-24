@@ -1,8 +1,7 @@
 import { ethers } from "ethers";
 import React, { useState } from "react";
-import { g, modPow, N } from "../srpUtils";
-import { register } from "../services/auth";
-import useBoundStore from "../store/useStore";
+import { register } from "~/services/auth";
+import useBoundStore from "~/store/useStore";
 
 interface RegistrationFormData {
   username: string;
