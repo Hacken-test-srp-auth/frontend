@@ -1,19 +1,11 @@
 import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+
 import { User, Mail, Loader2 } from "lucide-react";
 import useBoundStore from "../../store/useStore";
 import { FormInput } from "../../components/FormInput";
-
-const profileSchema = yup
-  .object({
-    name: yup.string().required("Name is required"),
-    username: yup.string().required("Username is required"),
-  })
-  .required();
-
-type ProfileFormData = yup.InferType<typeof profileSchema>;
+import { ProfileFormData, profileSchema } from "./formConfig";
 
 export const Profile: React.FC = () => {
   const { profile, updateProfile, setProfile } = useBoundStore();
